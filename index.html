@@ -103,6 +103,7 @@
     <!-- Studio Hero -->
     <section class="hero">
       <div class="logo-container">
+        <!-- SVG Logo -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
           <defs>
             <radialGradient id="voidBg" cx="50%" cy="50%" r="50%">
@@ -260,33 +261,37 @@
 
   <script>
     const SUPABASE_URL = "https://rvetucuqburqnrgoatui.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_lObu0hrc0h8j6AaIw4L2_w_Z8P_Q0nD";
-    const supabase = (SUPABASE_URL !== "YOUR_SUPABASE_PROJECT_URL") 
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
-      : null;
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2ZXR1Y3VxYnVycW5yZ29hdHVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyOTMyOTcsImV4cCI6MjEwMzg2OTI5N30.Q3g0deWdLd8b0oczpDd1gwdRcTm2xJ_RBhjhtCgm19g";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     async function handleSignUp() {
-      if (!supabase) return alert("Please configure your Supabase URL and Key in index.html");
-      const email = document.getElementById("auth-email").value;
-      const password = document.getElementById("auth-password").value;
+      const email = document.getElementById("auth-email").value.trim();
+      const password = document.getElementById("auth-password").value.trim();
       if (!email || !password) return alert("Please enter both an email and password.");
+      
       const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) alert(error.message);
-      else alert("Account created! Check your email to confirm registration.");
+      if (error) {
+        alert(error.message);
+      } else {
+        alert("Account registered! Check your email inbox to confirm your account.");
+      }
     }
 
     async function handleLogin() {
-      if (!supabase) return alert("Please configure your Supabase URL and Key in index.html");
-      const email = document.getElementById("auth-email").value;
-      const password = document.getElementById("auth-password").value;
+      const email = document.getElementById("auth-email").value.trim();
+      const password = document.getElementById("auth-password").value.trim();
       if (!email || !password) return alert("Please enter both an email and password.");
+      
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) alert(error.message);
-      else updateAuthState(data.user);
+      if (error) {
+        alert(error.message);
+      } else {
+        updateAuthState(data.user);
+      }
     }
 
     async function handleLogout() {
-      if (supabase) await supabase.auth.signOut();
+      await supabase.auth.signOut();
       updateAuthState(null);
     }
 
@@ -309,11 +314,9 @@
       }
     }
 
-    if (supabase) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) updateAuthState(session.user);
-      });
-    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) updateAuthState(session.user);
+    });
   </script>
 </body>
 </html>
