@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chase Studios | Official Hub</title>
-  <!-- Supabase Client CDN -->
+  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
@@ -25,29 +25,24 @@
     
     .container { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem; width: 100%; }
 
-    /* Announcement Ticker */
     .ticker { background: rgba(46, 16, 101, 0.4); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 1rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; font-size: 0.85rem; flex-wrap: wrap; gap: 0.5rem; }
     .ticker-tag { background: var(--cyan); color: #07050d; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; margin-right: 0.5rem; }
 
-    /* Navigation Bar */
     nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
     .nav-brand { font-weight: 900; font-size: 1.4rem; letter-spacing: 2px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
     .nav-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
     .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: color 0.2s; }
     .nav-links a:hover { color: var(--cyan); }
 
-    /* Hero Section */
     .hero { text-align: center; margin-bottom: 3.5rem; }
     .logo-container { width: 160px; height: 160px; margin: 0 auto 1.25rem; }
     .hero h1 { font-size: 2.8rem; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 0.5rem; }
     .hero p { color: var(--cyan); font-weight: 700; letter-spacing: 3px; font-size: 1rem; text-transform: uppercase; }
 
-    /* Layout Grids */
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; }
     @media (max-width: 850px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 
-    /* Card Component */
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .card-badge { display: inline-block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--cyan); padding: 0.25rem 0.6rem; background: rgba(34, 211, 238, 0.1); border-radius: 6px; margin-bottom: 1rem; }
     .card-badge.gold { color: var(--gold); background: rgba(253, 224, 71, 0.1); }
@@ -55,11 +50,9 @@
     .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
     .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
 
-    /* Section Headers */
     .section-title { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
     .section-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
-    /* Buttons & Inputs */
     .btn { display: inline-flex; justify-content: center; align-items: center; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer; text-decoration: none; border: none; transition: all 0.2s; text-align: center; }
     .btn-primary { background: linear-gradient(135deg, var(--cyan), var(--purple)); color: #07050d; }
     .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
@@ -69,17 +62,14 @@
     .input-field { width: 100%; padding: 0.8rem; background: #07050d; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 0.75rem; }
     .input-field:focus { outline: none; border-color: var(--cyan); }
 
-    /* Code Box */
     .code-box { background: #07050d; border: 1px dashed var(--border); border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 1rem; color: var(--gold); text-align: center; margin-bottom: 1.5rem; }
 
-    /* Footer */
     footer { margin-top: auto; text-align: center; padding: 2rem 0; color: #475569; font-size: 0.85rem; border-top: 1px solid #1e152d; }
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Announcement Ticker -->
     <div class="ticker">
       <div>
         <span class="ticker-tag">Latest Update</span>
@@ -88,7 +78,6 @@
       <div><span style="color: var(--text-muted);">Active Mystery Gift:</span> <strong style="color: var(--gold);">WELCOME500</strong></div>
     </div>
 
-    <!-- Navigation -->
     <nav>
       <a href="#" class="nav-brand">CHASE STUDIOS</a>
       <div class="nav-links">
@@ -100,10 +89,8 @@
       </div>
     </nav>
 
-    <!-- Studio Hero -->
     <section class="hero">
       <div class="logo-container">
-        <!-- SVG Logo -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
           <defs>
             <radialGradient id="voidBg" cx="50%" cy="50%" r="50%">
@@ -148,7 +135,6 @@
       <p>Every Genre. No Limits.</p>
     </section>
 
-    <!-- Main Grid: Game & Account -->
     <div class="grid-2" id="games">
       <div class="card">
         <span class="card-badge">Live Flagship Browser RPG</span>
@@ -166,8 +152,8 @@
           <input type="email" id="auth-email" class="input-field" placeholder="Email Address" />
           <input type="password" id="auth-password" class="input-field" placeholder="Password" />
           <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-            <button onclick="handleLogin()" class="btn btn-primary" style="flex: 1;">Log In</button>
-            <button onclick="handleSignUp()" class="btn btn-secondary" style="flex: 1;">Sign Up</button>
+            <button id="btn-login" class="btn btn-primary" style="flex: 1;">Log In</button>
+            <button id="btn-signup" class="btn btn-secondary" style="flex: 1;">Sign Up</button>
           </div>
         </div>
 
@@ -177,12 +163,11 @@
           <div class="code-box" style="margin-bottom: 1.25rem; color: var(--cyan); font-size: 0.85rem;">
             Cloud Status: <span id="save-status">Synced & Ready</span>
           </div>
-          <button onclick="handleLogout()" class="btn btn-secondary" style="width: 100%;">Disconnect Account</button>
+          <button id="btn-logout" class="btn btn-secondary" style="width: 100%;">Disconnect Account</button>
         </div>
       </div>
     </div>
 
-    <!-- Creator Bio & Tribute -->
     <div class="section-title" id="about">Behind the Studio</div>
     <div class="card" style="margin-bottom: 2.5rem;">
       <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
@@ -209,7 +194,6 @@
             Chase Studios is the living legacy of that journey. It exists to capture that exact same childhood magic—the freedom to dive into any world, explore any genre, and create unforgettable adventures. Whether you are battling alongside loyal companions in browser RPGs or embarking on our next big journey, this studio is built on a simple promise: <strong>Every Genre. No Limits.</strong> Welcome to the family.
           </p>
 
-          <!-- Player Two Tribute -->
           <div style="background: rgba(7, 5, 13, 0.8); padding: 1.25rem; border-radius: 12px; border: 1px dashed var(--border);">
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
               <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: var(--gold); letter-spacing: 1.5px;">
@@ -224,7 +208,6 @@
       </div>
     </div>
 
-    <!-- Development Pipeline -->
     <div class="section-title" id="pipeline">Development Pipeline</div>
     <div class="grid-3">
       <div class="card">
@@ -244,13 +227,12 @@
       </div>
     </div>
 
-    <!-- Community Hub -->
     <div class="card" id="community" style="text-align: center; margin-bottom: 2rem;">
       <h2>Join the Official Community</h2>
       <p>Connect with the beta testing squad, catch live streams with Bill Chase, and claim active Mystery Codes.</p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <a href="https://discord.gg/kzDN6Y3jd" target="_blank" class="btn btn-secondary">Join Discord Server</a>
-        <a href="https://www.twitch.tv/billgaming2424" target="_blank" class="btn btn-secondary">Watch Live on Twitch</a>
+        <a href="https://www.twitch.tv/billgaming2424" target="_blank" class="btn btn-primary">Watch Live on Twitch</a>
       </div>
     </div>
 
@@ -262,37 +244,10 @@
   <script>
     const SUPABASE_URL = "https://rvetucuqburqnrgoatui.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2ZXR1Y3VxYnVycW5yZ29hdHVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyOTMyOTcsImV4cCI6MjEwMzg2OTI5N30.Q3g0deWdLd8b0oczpDd1gwdRcTm2xJ_RBhjhtCgm19g";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function handleSignUp() {
-      const email = document.getElementById("auth-email").value.trim();
-      const password = document.getElementById("auth-password").value.trim();
-      if (!email || !password) return alert("Please enter both an email and password.");
-      
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) {
-        alert(error.message);
-      } else {
-        alert("Account registered! Check your email inbox to confirm your account.");
-      }
-    }
-
-    async function handleLogin() {
-      const email = document.getElementById("auth-email").value.trim();
-      const password = document.getElementById("auth-password").value.trim();
-      if (!email || !password) return alert("Please enter both an email and password.");
-      
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        alert(error.message);
-      } else {
-        updateAuthState(data.user);
-      }
-    }
-
-    async function handleLogout() {
-      await supabase.auth.signOut();
-      updateAuthState(null);
+    let supabaseClient = null;
+    if (window.supabase) {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
     function updateAuthState(user) {
@@ -314,9 +269,48 @@
       }
     }
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) updateAuthState(session.user);
-    });
+    async function handleSignUp() {
+      if (!supabaseClient) return alert("Database client failed to initialize.");
+      const email = document.getElementById("auth-email").value.trim();
+      const password = document.getElementById("auth-password").value.trim();
+      if (!email || !password) return alert("Please enter both an email and password.");
+
+      const { data, error } = await supabaseClient.auth.signUp({ email, password });
+      if (error) {
+        alert(error.message);
+      } else {
+        alert("Success! Check your email to confirm registration.");
+      }
+    }
+
+    async function handleLogin() {
+      if (!supabaseClient) return alert("Database client failed to initialize.");
+      const email = document.getElementById("auth-email").value.trim();
+      const password = document.getElementById("auth-password").value.trim();
+      if (!email || !password) return alert("Please enter both an email and password.");
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        alert(error.message);
+      } else {
+        updateAuthState(data.user);
+      }
+    }
+
+    async function handleLogout() {
+      if (supabaseClient) await supabaseClient.auth.signOut();
+      updateAuthState(null);
+    }
+
+    document.getElementById("btn-signup").addEventListener("click", handleSignUp);
+    document.getElementById("btn-login").addEventListener("click", handleLogin);
+    document.getElementById("btn-logout").addEventListener("click", handleLogout);
+
+    if (supabaseClient) {
+      supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        if (session) updateAuthState(session.user);
+      });
+    }
   </script>
 </body>
 </html>
