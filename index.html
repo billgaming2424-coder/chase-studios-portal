@@ -19,6 +19,7 @@
       --text-muted: #94a3b8;
       --gold: #fde047;
       --green: #4ade80;
+      --red: #f87171;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
@@ -47,7 +48,6 @@
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .card-badge { display: inline-block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--cyan); padding: 0.25rem 0.6rem; background: rgba(34, 211, 238, 0.1); border-radius: 6px; margin-bottom: 1rem; }
     .card-badge.gold { color: var(--gold); background: rgba(253, 224, 71, 0.1); }
-    .card-badge.green { color: var(--green); background: rgba(74, 222, 128, 0.15); }
     .card h2 { font-size: 1.5rem; margin-bottom: 0.75rem; }
     .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
     .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
@@ -65,6 +65,11 @@
     .input-field:focus { outline: none; border-color: var(--cyan); }
 
     .code-box { background: #07050d; border: 1px dashed var(--border); border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 1rem; color: var(--gold); text-align: center; margin-bottom: 1.5rem; }
+
+    /* In-Page Alert Message */
+    .status-banner { padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; text-align: center; }
+    .status-banner.success { background: rgba(74, 222, 128, 0.15); border: 1px solid var(--green); color: var(--green); }
+    .status-banner.error { background: rgba(248, 113, 113, 0.15); border: 1px solid var(--red); color: var(--red); }
 
     footer { margin-top: auto; text-align: center; padding: 2rem 0; color: #475569; font-size: 0.85rem; border-top: 1px solid #1e152d; }
     .hidden { display: none !important; }
@@ -150,9 +155,12 @@
         <span class="card-badge gold">Cloud Sync Portal</span>
         <h2>Studio Account</h2>
 
-        <!-- Default Sign In / Sign Up Form -->
         <div id="auth-logged-out">
           <p>Create a studio account to automatically sync your saves across devices and claim your exclusive Founder's Pack.</p>
+          
+          <!-- Persistent Message Banner -->
+          <div id="auth-banner" class="status-banner hidden"></div>
+
           <input type="email" id="auth-email" class="input-field" placeholder="Email Address" />
           <input type="password" id="auth-password" class="input-field" placeholder="Password" />
           <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
@@ -161,26 +169,6 @@
           </div>
         </div>
 
-        <!-- Confirmation / Thank You Screen -->
-        <div id="auth-thanks" class="hidden">
-          <div style="text-align: center; padding: 1rem 0;">
-            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">⚔️</div>
-            <span class="card-badge green" style="margin-bottom: 0.75rem;">Account Registered!</span>
-            <h3 style="color: #fff; margin-bottom: 0.5rem;">Welcome to Chase Studios</h3>
-            <p style="margin-bottom: 1.25rem;">
-              Thanks for joining the studio, <strong id="registered-email-display" style="color: var(--cyan);"></strong>! Your cloud-sync profile has been registered in the Supabase database.
-            </p>
-            <div class="code-box" style="margin-bottom: 1.25rem;">
-              Registration Confirmed & Ready
-            </div>
-            <div style="display: flex; gap: 0.5rem; flex-direction: column;">
-              <a href="https://unidex-legends.onrender.com/" target="_blank" class="btn btn-primary">Jump Into UniMon Legends</a>
-              <button id="btn-back-to-auth" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem;">Back to Sign In</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Logged In Active State -->
         <div id="auth-logged-in" class="hidden">
           <p style="color: var(--cyan); margin-bottom: 0.5rem;">✓ Connected to Cloud Network</p>
           <p id="user-email-display" style="font-weight: bold; margin-bottom: 1rem; color: #fff;"></p>
@@ -274,59 +262,55 @@
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
-    function showScreen(screenName) {
-      document.getElementById("auth-logged-out").classList.add("hidden");
-      document.getElementById("auth-thanks").classList.add("hidden");
-      document.getElementById("auth-logged-in").classList.add("hidden");
-
-      if (screenName === "thanks") {
-        document.getElementById("auth-thanks").classList.remove("hidden");
-      } else if (screenName === "logged-in") {
-        document.getElementById("auth-logged-in").classList.remove("hidden");
-      } else {
-        document.getElementById("auth-logged-out").classList.remove("hidden");
-      }
+    function showBanner(text, type = "success") {
+      const banner = document.getElementById("auth-banner");
+      banner.textContent = text;
+      banner.className = `status-banner ${type}`;
+      banner.classList.remove("hidden");
     }
 
     function updateAuthState(user) {
+      const loggedOut = document.getElementById("auth-logged-out");
+      const loggedIn = document.getElementById("auth-logged-in");
       const emailDisplay = document.getElementById("user-email-display");
       const navStatus = document.getElementById("nav-user-status");
 
       if (user) {
-        showScreen("logged-in");
+        loggedOut.classList.add("hidden");
+        loggedIn.classList.remove("hidden");
         emailDisplay.textContent = user.email;
         navStatus.textContent = `● Connected: ${user.email}`;
         navStatus.classList.remove("hidden");
       } else {
-        showScreen("logged-out");
+        loggedOut.classList.remove("hidden");
+        loggedIn.classList.add("hidden");
         navStatus.classList.add("hidden");
       }
     }
 
     async function handleSignUp() {
-      if (!supabaseClient) return alert("Database client failed to initialize.");
+      if (!supabaseClient) return showBanner("Database client failed to initialize.", "error");
       const email = document.getElementById("auth-email").value.trim();
       const password = document.getElementById("auth-password").value.trim();
-      if (!email || !password) return alert("Please enter both an email and password.");
+      if (!email || !password) return showBanner("Please enter both an email and password.", "error");
 
       const { data, error } = await supabaseClient.auth.signUp({ email, password });
       if (error) {
-        alert(error.message);
+        showBanner(error.message, "error");
       } else {
-        document.getElementById("registered-email-display").textContent = email;
-        showScreen("thanks");
+        showBanner("✓ Success! Check your email to confirm registration.", "success");
       }
     }
 
     async function handleLogin() {
-      if (!supabaseClient) return alert("Database client failed to initialize.");
+      if (!supabaseClient) return showBanner("Database client failed to initialize.", "error");
       const email = document.getElementById("auth-email").value.trim();
       const password = document.getElementById("auth-password").value.trim();
-      if (!email || !password) return alert("Please enter both an email and password.");
+      if (!email || !password) return showBanner("Please enter both an email and password.", "error");
 
       const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
       if (error) {
-        alert(error.message);
+        showBanner(error.message, "error");
       } else {
         updateAuthState(data.user);
       }
@@ -340,7 +324,6 @@
     document.getElementById("btn-signup").addEventListener("click", handleSignUp);
     document.getElementById("btn-login").addEventListener("click", handleLogin);
     document.getElementById("btn-logout").addEventListener("click", handleLogout);
-    document.getElementById("btn-back-to-auth").addEventListener("click", () => showScreen("logged-out"));
 
     if (supabaseClient) {
       supabaseClient.auth.getSession().then(({ data: { session } }) => {
