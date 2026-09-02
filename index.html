@@ -18,6 +18,7 @@
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --gold: #fde047;
+      --green: #4ade80;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
@@ -46,6 +47,7 @@
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .card-badge { display: inline-block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--cyan); padding: 0.25rem 0.6rem; background: rgba(34, 211, 238, 0.1); border-radius: 6px; margin-bottom: 1rem; }
     .card-badge.gold { color: var(--gold); background: rgba(253, 224, 71, 0.1); }
+    .card-badge.green { color: var(--green); background: rgba(74, 222, 128, 0.15); }
     .card h2 { font-size: 1.5rem; margin-bottom: 0.75rem; }
     .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
     .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
@@ -147,6 +149,8 @@
       <div class="card">
         <span class="card-badge gold">Cloud Sync Portal</span>
         <h2>Studio Account</h2>
+
+        <!-- Default Sign In / Sign Up Form -->
         <div id="auth-logged-out">
           <p>Create a studio account to automatically sync your saves across devices and claim your exclusive Founder's Pack.</p>
           <input type="email" id="auth-email" class="input-field" placeholder="Email Address" />
@@ -157,6 +161,26 @@
           </div>
         </div>
 
+        <!-- Confirmation / Thank You Screen -->
+        <div id="auth-thanks" class="hidden">
+          <div style="text-align: center; padding: 1rem 0;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">⚔️</div>
+            <span class="card-badge green" style="margin-bottom: 0.75rem;">Account Registered!</span>
+            <h3 style="color: #fff; margin-bottom: 0.5rem;">Welcome to Chase Studios</h3>
+            <p style="margin-bottom: 1.25rem;">
+              Thanks for joining the studio, <strong id="registered-email-display" style="color: var(--cyan);"></strong>! Your cloud-sync profile has been registered in the Supabase database.
+            </p>
+            <div class="code-box" style="margin-bottom: 1.25rem;">
+              Registration Confirmed & Ready
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+              <a href="https://unidex-legends.onrender.com/" target="_blank" class="btn btn-primary">Jump Into UniMon Legends</a>
+              <button id="btn-back-to-auth" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem;">Back to Sign In</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logged In Active State -->
         <div id="auth-logged-in" class="hidden">
           <p style="color: var(--cyan); margin-bottom: 0.5rem;">✓ Connected to Cloud Network</p>
           <p id="user-email-display" style="font-weight: bold; margin-bottom: 1rem; color: #fff;"></p>
@@ -232,7 +256,7 @@
       <p>Connect with the beta testing squad, catch live streams with Bill Chase, and claim active Mystery Codes.</p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <a href="https://discord.gg/kzDN6Y3jd" target="_blank" class="btn btn-secondary">Join Discord Server</a>
-        <a href="https://www.twitch.tv/billgaming2424" target="_blank" class="btn btn-primary">Watch Live on Twitch</a>
+        <a href="https://www.twitch.tv/billgaming2424" target="_blank" class="btn btn-secondary">Watch Live on Twitch</a>
       </div>
     </div>
 
@@ -250,21 +274,31 @@
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
+    function showScreen(screenName) {
+      document.getElementById("auth-logged-out").classList.add("hidden");
+      document.getElementById("auth-thanks").classList.add("hidden");
+      document.getElementById("auth-logged-in").classList.add("hidden");
+
+      if (screenName === "thanks") {
+        document.getElementById("auth-thanks").classList.remove("hidden");
+      } else if (screenName === "logged-in") {
+        document.getElementById("auth-logged-in").classList.remove("hidden");
+      } else {
+        document.getElementById("auth-logged-out").classList.remove("hidden");
+      }
+    }
+
     function updateAuthState(user) {
-      const loggedOut = document.getElementById("auth-logged-out");
-      const loggedIn = document.getElementById("auth-logged-in");
       const emailDisplay = document.getElementById("user-email-display");
       const navStatus = document.getElementById("nav-user-status");
 
       if (user) {
-        loggedOut.classList.add("hidden");
-        loggedIn.classList.remove("hidden");
+        showScreen("logged-in");
         emailDisplay.textContent = user.email;
         navStatus.textContent = `● Connected: ${user.email}`;
         navStatus.classList.remove("hidden");
       } else {
-        loggedOut.classList.remove("hidden");
-        loggedIn.classList.add("hidden");
+        showScreen("logged-out");
         navStatus.classList.add("hidden");
       }
     }
@@ -279,7 +313,8 @@
       if (error) {
         alert(error.message);
       } else {
-        alert("Success! Check your email to confirm registration.");
+        document.getElementById("registered-email-display").textContent = email;
+        showScreen("thanks");
       }
     }
 
@@ -305,6 +340,7 @@
     document.getElementById("btn-signup").addEventListener("click", handleSignUp);
     document.getElementById("btn-login").addEventListener("click", handleLogin);
     document.getElementById("btn-logout").addEventListener("click", handleLogout);
+    document.getElementById("btn-back-to-auth").addEventListener("click", () => showScreen("logged-out"));
 
     if (supabaseClient) {
       supabaseClient.auth.getSession().then(({ data: { session } }) => {
