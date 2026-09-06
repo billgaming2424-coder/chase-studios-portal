@@ -23,6 +23,7 @@
     color:#dfe6f0;
     font-family:'Press Start 2P','Courier New',monospace;
     user-select:none;
+    -webkit-font-smoothing:none; font-smooth:never;
   }
   body{ padding:16px 0 40px 0; }
   #app-shell{ max-width:960px; margin:0 auto; padding:0 12px; }
@@ -47,12 +48,45 @@
   button.ghost-btn:active{ box-shadow:0 1px 0 #0a0e16; }
 
   .crt-overlay{
-    position:absolute; inset:0; pointer-events:none;
+    position:absolute; inset:0; pointer-events:none; z-index:3;
     background:
-      repeating-linear-gradient(rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,.14) 3px, rgba(0,0,0,0) 4px),
-      radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.5) 100%),
-      linear-gradient(rgba(120,214,255,.03), rgba(120,214,255,0));
+      repeating-linear-gradient(rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,.16) 3px, rgba(0,0,0,0) 4px),
+      radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(0,0,0,.58) 100%),
+      linear-gradient(rgba(120,214,255,.04), rgba(120,214,255,0));
+    animation: crtFlicker 6.5s infinite steps(1);
   }
+  @keyframes crtFlicker{
+    0%, 100%{ opacity:1; }
+    3%{ opacity:.86; } 3.2%{ opacity:1; }
+    41%{ opacity:.92; } 41.4%{ opacity:1; }
+    72%{ opacity:.88; } 72.3%{ opacity:1; }
+    /* one longer old-CRT "roll" dip so it never feels perfectly stable */
+    85%{ opacity:1; } 85.6%{ opacity:.7; } 86.2%{ opacity:1; }
+  }
+  /* Slow diagonal scanline sweep - the classic old-tube "roll bar" drifting down the tube */
+  .scan-roll{
+    position:absolute; left:0; right:0; height:26%; top:-30%;
+    pointer-events:none; z-index:3;
+    background:linear-gradient(rgba(180,220,255,0) 0%, rgba(180,220,255,.07) 45%, rgba(180,220,255,.12) 50%, rgba(180,220,255,.07) 55%, rgba(180,220,255,0) 100%);
+    animation: scanRoll 7s linear infinite;
+    mix-blend-mode:screen;
+  }
+  @keyframes scanRoll{ 0%{ top:-30%; } 100%{ top:130%; } }
+  /* Faux screen curvature vignette shared by every retro panel */
+  .full-screen-panel::after{
+    content:''; position:absolute; inset:0; pointer-events:none; z-index:4;
+    box-shadow: inset 0 0 60px 18px rgba(0,0,0,.65), inset 0 0 140px 40px rgba(0,0,0,.35);
+    border-radius:14px;
+  }
+  /* Old tube warm-up: the whole panel snaps on from a thin bright line, like flipping on a CRT */
+  @keyframes crtPowerOn{
+    0%{ transform:scaleY(.008) scaleX(1.3); opacity:0; filter:brightness(6); }
+    6%{ opacity:1; }
+    35%{ transform:scaleY(1) scaleX(1); filter:brightness(2.4); }
+    60%{ filter:brightness(1.15); }
+    100%{ transform:scaleY(1) scaleX(1); filter:brightness(1); }
+  }
+  #boot-screen{ animation: crtPowerOn 1.1s cubic-bezier(.2,.9,.25,1) both; }
 
   /* ---------------- BOOT / TITLE / STORY SCREENS ---------------- */
   .full-screen-panel{
@@ -65,33 +99,54 @@
   }
   #boot-screen{ cursor:pointer; }
   #boot-screen{ background:radial-gradient(ellipse at 50% 40%,#171026 0%,#07050d 70%); }
-  .chase-emblem{ width:96px; height:96px; opacity:0; animation: chaseFadeIn 1.4s ease forwards; }
+  .chase-emblem{ width:96px; height:96px; opacity:0; animation: chaseFadeIn 2.6s ease forwards; animation-delay:.4s; }
   .chase-logo{
     font-size:20px; letter-spacing:5px; color:#fff; font-weight:900;
-    text-shadow:0 0 18px rgba(34,211,238,.7), 0 0 40px rgba(192,132,252,.4);
-    opacity:0; animation: chaseFadeIn 1.6s ease forwards; animation-delay:.25s;
+    text-shadow: 2px 0 0 rgba(255,50,80,.55), -2px 0 0 rgba(34,211,238,.55), 0 0 18px rgba(34,211,238,.7), 0 0 40px rgba(192,132,252,.4);
+    opacity:0; animation: chaseFadeIn 2.2s ease forwards, chaseChroma 3.2s ease-in-out 2.8s infinite; animation-delay:2.2s, 2.8s;
   }
   .chase-tagline{
     font-size:8px; letter-spacing:3px; color:#22d3ee; opacity:0;
-    animation: chaseFadeIn 1.6s ease forwards; animation-delay:.6s;
+    animation: chaseFadeIn 2s ease forwards; animation-delay:4.4s;
   }
   .chase-sub{
     font-size:7.5px; letter-spacing:1px; color:#94a3b8; opacity:0;
-    animation: chaseFadeIn 1.6s ease forwards; animation-delay:.95s;
+    animation: chaseFadeIn 2s ease forwards; animation-delay:6s;
   }
-  .chase-skip{ font-size:7px; color:#41506c; opacity:0; animation: chaseFadeIn 1.2s ease forwards; animation-delay:1.8s; }
+  .chase-skip{
+    font-size:7px; color:#41506c; opacity:0;
+    animation: chaseFadeIn 1.4s ease forwards, chaseBlink 1.6s step-start infinite; animation-delay:7.8s, 9.2s;
+  }
   @keyframes chaseFadeIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:translateY(0);} }
+  @keyframes chaseBlink{ 50%{ opacity:.25; } }
+  @keyframes chaseChroma{
+    0%, 100%{ text-shadow: 2px 0 0 rgba(255,50,80,.55), -2px 0 0 rgba(34,211,238,.55), 0 0 18px rgba(34,211,238,.7), 0 0 40px rgba(192,132,252,.4); }
+    50%{ text-shadow: -2px 0 0 rgba(255,50,80,.55), 2px 0 0 rgba(34,211,238,.55), 0 0 18px rgba(192,132,252,.7), 0 0 40px rgba(34,211,238,.4); }
+  }
 
-  .game-title{ font-size:20px; color:#fff; letter-spacing:1px; text-shadow:0 0 14px rgba(232,201,106,.6); line-height:1.7; }
+  .game-title{
+    font-size:20px; color:#fff; letter-spacing:1px; line-height:1.7;
+    text-shadow: 2px 0 0 rgba(255,50,80,.4), -2px 0 0 rgba(34,211,238,.4), 0 0 14px rgba(232,201,106,.6);
+    opacity:0; animation: chaseFadeIn .7s ease forwards;
+  }
   .game-title small{ display:block; font-size:9px; color:var(--gold); letter-spacing:1px; margin-top:6px; }
-  .rivalry-badges{ display:flex; gap:14px; align-items:center; margin:6px 0; }
+  .rivalry-badges{
+    display:flex; gap:14px; align-items:center; margin:6px 0;
+    opacity:0; animation: chaseFadeIn .7s ease forwards; animation-delay:.18s;
+  }
   .rivalry-badges .vs{ font-size:12px; color:#5a6a85; }
   .side-chip{ padding:8px 12px; border-radius:5px; font-size:8px; letter-spacing:1px; }
   .side-chip.ridge{ background:linear-gradient(#3a8fd0,#123a5c); color:#eaf5ff; }
   .side-chip.swaim{ background:linear-gradient(#d9604a,#5c150c); color:#fff0ec; }
-  .title-menu{ display:flex; flex-direction:column; gap:10px; width:220px; }
+  .title-menu{
+    display:flex; flex-direction:column; gap:10px; width:220px;
+    opacity:0; animation: chaseFadeIn .7s ease forwards; animation-delay:.34s;
+  }
   .title-menu button{ width:100%; }
-  .title-footnote{ font-size:6.5px; color:#3d4a63; letter-spacing:1px; max-width:380px; line-height:1.8; }
+  .title-footnote{
+    font-size:6.5px; color:#3d4a63; letter-spacing:1px; max-width:380px; line-height:1.8;
+    opacity:0; animation: chaseFadeIn .7s ease forwards; animation-delay:.5s;
+  }
 
   #story-screen .story-box{
     max-width:480px; text-align:left; font-size:8.5px; line-height:2.1; color:#c9d4e3;
@@ -262,6 +317,7 @@
     <div class="chase-tagline">EVERY GENRE. NO LIMITS.</div>
     <div class="chase-sub">presents a Greenridge Village production</div>
     <div class="chase-skip">tap anywhere to continue</div>
+    <div class="scan-roll"></div>
     <div class="crt-overlay"></div>
   </div>
 
@@ -280,6 +336,7 @@
       <button id="btn-fullscreen" class="ghost-btn">&#9974; Fullscreen</button>
     </div>
     <div class="title-footnote">A hotseat 2-player tactics game — pass the device (or the laptop) back and forth between whoever's running The Ridge and whoever's running The Swaim.</div>
+    <div class="scan-roll"></div>
     <div class="crt-overlay"></div>
   </div>
 
@@ -294,6 +351,7 @@
       May the best wing win.
     </div>
     <button id="btn-story-back" class="ghost-btn">&#8592; Back</button>
+    <div class="scan-roll"></div>
     <div class="crt-overlay"></div>
   </div>
 
@@ -382,9 +440,27 @@
 // =======================================================================
 const MusicEngine = (() => {
   let ctx = null, playing = false, timerId = null, step = 0, nextTime = 0;
-  const tempo = 132;
-  const stepDur = 60 / tempo / 4; // 16th notes
-  const chords = [ [220,261.63,329.63], [174.61,220,261.63], [196,246.94,293.66], [246.94,293.66,369.99] ]; // Am F G Bm-ish loop
+  let mode = 'title'; // 'title' (boot/title screen anthem) | 'battle' (in-mission loop)
+
+  // --- in-mission loop (unchanged) ---
+  const battleTempo = 132;
+  const battleStepDur = 60 / battleTempo / 4; // 16th notes
+  const battleChords = [ [220,261.63,329.63], [174.61,220,261.63], [196,246.94,293.66], [246.94,293.66,369.99] ]; // Am F G Bm-ish loop
+
+  // --- boot/title screen theme: a slower, old-school 8-bit marching anthem ---
+  const titleTempo = 108;
+  const titleStepDur = 60 / titleTempo / 4;
+  const N = { A2:110.00, C3:130.81, F2:87.31, G2:98.00,
+              F4:349.23, G4:392.00, A4:440.00, B4:493.88,
+              C5:523.25, D5:587.33, E5:659.25, G5:783.99 };
+  const titleMelody = [
+    N.A4, N.C5, N.E5, N.C5, N.A4, N.E5, N.C5, N.E5,
+    N.F4, N.A4, N.C5, N.A4, N.F4, N.C5, N.A4, N.C5,
+    N.C5, N.E5, N.G5, N.E5, N.C5, N.G5, N.E5, N.G5,
+    N.G4, N.B4, N.D5, N.B4, N.G4, N.D5, N.B4, N.D5
+  ];
+  const titleBassRoots = [N.A2, N.F2, N.C3, N.G2]; // one per 8-step chord segment
+
   function osc(freq, time, dur, type, gain) {
     if (!ctx) return;
     const o = ctx.createOscillator(), g = ctx.createGain();
@@ -406,32 +482,50 @@ const MusicEngine = (() => {
     src.connect(g); g.connect(ctx.destination);
     src.start(time);
   }
-  function scheduleStep() {
-    const bar = Math.floor(step / 16) % chords.length;
-    const chord = chords[bar];
+  function scheduleBattleStep() {
+    const bar = Math.floor(step / 16) % battleChords.length;
+    const chord = battleChords[bar];
     const s16 = step % 16;
-    // bass on the beat
-    if (s16 % 4 === 0) osc(chord[0] / 2, nextTime, stepDur * 3.5, 'triangle', 0.09);
-    // lead arpeggio every step
+    if (s16 % 4 === 0) osc(chord[0] / 2, nextTime, battleStepDur * 3.5, 'triangle', 0.09);
     const arp = [chord[0], chord[1], chord[2], chord[1]][s16 % 4];
-    osc(arp, nextTime, stepDur * 0.9, 'square', 0.045);
-    // percussion
+    osc(arp, nextTime, battleStepDur * 0.9, 'square', 0.045);
     if (s16 === 0 || s16 === 8) noise(nextTime, 0.06, 0.05);
     if (s16 === 4 || s16 === 12) noise(nextTime, 0.03, 0.025);
     step++;
-    nextTime += stepDur;
+    nextTime += battleStepDur;
+  }
+  function scheduleTitleStep() {
+    const s32 = step % 32;
+    const chordIdx = Math.floor(s32 / 8);
+    if (s32 % 8 === 0) osc(titleBassRoots[chordIdx], nextTime, titleStepDur * 3.2, 'triangle', 0.1);
+    if (s32 % 8 === 4) osc(titleBassRoots[chordIdx] * 1.5, nextTime, titleStepDur * 1.6, 'triangle', 0.07);
+    osc(titleMelody[s32], nextTime, titleStepDur * 0.85, 'square', 0.05);
+    if (s32 % 8 === 0) noise(nextTime, 0.07, 0.055);
+    if (s32 % 8 === 4) noise(nextTime, 0.03, 0.03);
+    step++;
+    nextTime += titleStepDur;
   }
   function scheduler() {
-    while (ctx && nextTime < ctx.currentTime + 0.15) scheduleStep();
+    while (ctx && nextTime < ctx.currentTime + 0.15) {
+      if (mode === 'title') scheduleTitleStep(); else scheduleBattleStep();
+    }
     timerId = setTimeout(scheduler, 40);
   }
-  function start() {
+  function start(newMode) {
     try {
       if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
       if (ctx.state === 'suspended') ctx.resume();
-      playing = true; nextTime = ctx.currentTime + 0.05;
+      if (newMode) mode = newMode;
+      if (!playing) { step = 0; nextTime = ctx.currentTime + 0.05; }
+      playing = true;
       scheduler();
     } catch (e) { playing = false; }
+  }
+  function setMode(newMode) {
+    if (mode === newMode) return;
+    mode = newMode;
+    step = 0;
+    if (ctx) nextTime = ctx.currentTime + 0.05;
   }
   function stop() { playing = false; clearTimeout(timerId); }
   function toggle() { if (playing) stop(); else start(); return playing; }
@@ -442,7 +536,7 @@ const MusicEngine = (() => {
       osc(freq, ctx.currentTime, dur, type || 'square', gain || 0.08);
     } catch (e) {}
   }
-  return { toggle, start, stop, blip, get isPlaying() { return playing; } };
+  return { toggle, start, stop, blip, setMode, get isPlaying() { return playing; }, get mode() { return mode; } };
 })();
 
 function sfxHit() { MusicEngine.blip(180, 0.12, 'sawtooth', 0.09); }
@@ -465,7 +559,20 @@ function showTitle() {
   titleScreen.classList.remove('hidden');
 }
 bootScreen.addEventListener('click', showTitle);
-setTimeout(() => { if (!bootScreen.classList.contains('hidden')) showTitle(); }, 2600);
+// Old-school pacing: let the Chase Studios card breathe before it cuts to the title.
+setTimeout(() => { if (!bootScreen.classList.contains('hidden')) showTitle(); }, 9800);
+
+// Browsers won't play audio until the player has interacted with the page at least once -
+// so the retro title theme quietly arms itself on the very first tap/click/keypress
+// anywhere (skipping the boot card counts too) and then just keeps playing.
+let audioUnlocked = false;
+function unlockTitleAudio() {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+  if (!appEl.classList.contains('hidden')) return; // already in a match - leave battle music alone
+  if (!MusicEngine.isPlaying) { MusicEngine.start('title'); syncMusicButtons(); }
+}
+['pointerdown', 'keydown'].forEach(evt => document.addEventListener(evt, unlockTitleAudio, { once: true }));
 
 document.getElementById('btn-story').addEventListener('click', () => {
   titleScreen.classList.add('hidden');
@@ -496,7 +603,9 @@ document.getElementById('btn-fullscreen-game').addEventListener('click', toggleF
 document.getElementById('btn-start').addEventListener('click', () => {
   titleScreen.classList.add('hidden');
   appEl.classList.remove('hidden');
-  if (!MusicEngine.isPlaying) { MusicEngine.start(); syncMusicButtons(); }
+  MusicEngine.setMode('battle');
+  if (!MusicEngine.isPlaying) { MusicEngine.start('battle'); }
+  syncMusicButtons();
 });
 
 // =======================================================================
