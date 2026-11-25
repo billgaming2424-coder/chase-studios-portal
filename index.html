@@ -91,6 +91,12 @@
     .project-card:hover { border-color:var(--violet); background:var(--card-hover); }
     .hero { padding: 2rem 1rem; border-radius:24px; background:radial-gradient(ellipse at center, rgba(88,28,135,.22), transparent 70%); }
     @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+    .ecosystem { text-align:center; margin-bottom:2.5rem; background:radial-gradient(ellipse at top,rgba(147,51,234,.2),transparent 75%),var(--card-bg); }
+    .ecosystem-links,.footer-links { display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-bottom:1.5rem; }
+    .footer-links a { color:var(--text-muted); text-decoration:none; }
+    .footer-links a:hover { color:var(--cyan); }
+    .hero .logo-container { filter:drop-shadow(0 0 18px rgba(168,85,247,.4)); }
+    .section-title { scroll-margin-top:1rem; }
     </style>
 </head>
 <body>
@@ -115,6 +121,7 @@
         <a href="#about">About</a>
         <a href="#pipeline">Pipeline</a>
         <a href="#community">Community</a>
+        <a href="#news">News</a><a href="#downloads">Downloads</a><a href="#support">Support</a>
         <span id="nav-user-status" class="hidden" style="color: var(--cyan); font-size: 0.85rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle;"></span>
       </div>
     </nav>
@@ -331,6 +338,13 @@
       </div>
     </div>
 
+    <h2 class="section-title" id="ecosystem">One Studio. Connected Experiences.</h2>
+    <div class="card ecosystem"><h3>Chase Studio Account &amp; Cloud Linking</h3><p>Our long-term goal is one account across supported Chase products. Integration availability varies by product.</p><div class="ecosystem-links"><a class="btn btn-secondary" href="#games">Gaming</a><a class="btn btn-secondary" href="#software">Software</a><a class="btn btn-secondary" href="#systems">Operating Systems</a><a class="btn btn-secondary" href="#hardware">Hardware</a><a class="btn btn-secondary" href="#services">Services</a><a class="btn btn-secondary" href="#merch">Merch</a></div><a class="btn btn-primary" href="#account">Studio Account</a></div>
+    <h2 class="section-title" id="news">Studio News</h2><div class="grid-2"><article class="card project-card" id="news-droid"><h3>ChaseDroid Lite development</h3><p>Our Android-based prototype is in development. ChaseOS and ChaseCore remain planned projects.</p></article><article class="card project-card" id="news-portal"><h3>Website 2.0</h3><p>Explore our expanded project lineup, future hardware concepts and community resources.</p></article></div>
+    <h2 class="section-title" id="roadmap">Development Roadmap</h2><div class="grid-3"><article class="card project-card" id="roadmap-current"><h3>Current focus</h3><p>ChaseDroid Lite prototype, existing browser games and software development.</p></article><article class="card project-card" id="roadmap-next"><h3>Planned projects</h3><p>ChaseOS, ChaseCore, Chase+ and continued development of the software ecosystem.</p></article><article class="card project-card" id="roadmap-future"><h3>Long-term vision</h3><p>Branded phones, laptops, TV devices and official merchandise. No release dates announced.</p></article></div>
+    <h2 class="section-title" id="downloads">Download Center</h2><div class="grid-2"><article class="card"><h3>Browser games</h3><p>Use the existing browser launch links.</p><a class="btn btn-secondary" href="#games">Explore games</a></article><article class="card project-card" id="native-downloads"><h3>Native downloads — coming later</h3><p>PC, Android, iOS and Linux downloads will be listed when verified releases are available. No installers are offered here yet.</p></article></div>
+    <h2 class="section-title" id="support">Support &amp; Contact</h2><div class="grid-2"><article class="card"><h3>Community support</h3><p>For feedback and bug reports, visit the community section. Include your product, device and steps to reproduce the issue. Never share passwords or private account details.</p><a class="btn btn-secondary" href="#community">Community links</a></article><article class="card project-card" id="contact"><h3>Business &amp; partnerships</h3><p>Dedicated business contact details will be published once confirmed. No official response time is promised.</p></article><article class="card project-card" id="careers"><h3>Careers — future opportunities</h3><p>No open positions are announced at this time. Future opportunities will be posted here.</p></article><article class="card project-card" id="status"><h3>Service status</h3><p>Live monitoring is not connected. Current uptime and incident status are not verified on this portal.</p></article></div>
+    <h2 class="section-title" id="legal">Legal &amp; Transparency</h2><div class="grid-2"><article class="card project-card" id="privacy"><h3>Privacy &amp; terms</h3><p>Product-specific privacy notices and terms are pending publication or verification. This section is not a substitute for those policies.</p></article><article class="card project-card" id="ai-disclosure"><h3>AI transparency</h3><p>Chase Studios uses AI-assisted tools during independent development, with human creative direction. We aim to reduce reliance on AI as our human team grows.</p></article></div>
     <div class="card" id="community" style="text-align: center; margin-bottom: 2rem;">
       <h2>Join the Official Community</h2>
       <p>Connect with the beta testing squad, catch live streams with Bill Chase, and claim active Mystery Codes.</p>
@@ -341,7 +355,7 @@
     </div>
 
     <footer>
-      &copy; 2026 Chase Studios. All rights reserved.
+      <div class="footer-links"><a href="#games">Games</a><a href="#software">Software</a><a href="#systems">Systems</a><a href="#hardware">Hardware</a><a href="#merch">Merch</a><a href="#news">News</a><a href="#downloads">Downloads</a><a href="#support">Support</a><a href="#careers">Careers</a><a href="#legal">Legal</a><a href="#status">Status</a><a href="#account">Account</a></div><p>&copy; 2026 Chase Studios. All rights reserved.</p>
     </footer>
   </div>
 
