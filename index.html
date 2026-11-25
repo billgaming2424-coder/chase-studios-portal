@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chase Studios | Official Hub</title>
+  <title>Chase Studios | Games, Software &amp; Technology</title>
+  <meta name="description" content="Explore Chase Studios games, software, operating system projects and future technology. Every Genre. No Limits." />
   <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
@@ -74,14 +75,21 @@
 
     footer { margin-top: auto; text-align: center; padding: 2rem 0; color: #475569; font-size: 0.85rem; border-top: 1px solid #1e152d; }
     .hidden { display: none !important; }
-  </style>
+  .project-intro { color: var(--text-muted) !important; text-transform: none !important; letter-spacing: normal !important; font-weight: 400 !important; max-width: 700px; margin: 1rem auto; line-height: 1.7; }
+    .project-card { display: flex; flex-direction: column; align-items: flex-start; }
+    .project-card .btn { margin-top: auto; }
+    .hero h1 { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+    .code-box { overflow-wrap: anywhere; }
+    .nav-links { gap: 1rem; }
+    .btn:focus-visible, a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+    </style>
 </head>
 <body>
   <div class="container">
     <div class="ticker">
       <div>
         <span class="ticker-tag">Latest Update</span>
-        <span>Cross-play cloud infrastructure rolling out for Unimon Legends!</span>
+        <span>Studio update: ChaseDroid Lite is in development, alongside our growing games and software lineup.</span>
       </div>
       <div><span style="color: var(--text-muted);">Active Mystery Gift:</span> <strong style="color: var(--gold);">WELCOME500</strong></div>
     </div>
@@ -89,7 +97,10 @@
     <nav>
       <a href="#" class="nav-brand">CHASE STUDIOS</a>
       <div class="nav-links">
-        <a href="#nexus" style="color: var(--violet); font-weight: 700;">Nexus</a>
+        <a href="#software">Software</a>
+        <a href="#systems">Operating Systems</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#account">Account</a>
         <a href="#games">Games</a>
         <a href="#about">About</a>
         <a href="#pipeline">Pipeline</a>
@@ -142,9 +153,11 @@
       </div>
       <h1>Chase Studios</h1>
       <p>Every Genre. No Limits.</p>
+      <p class="project-intro">An independent gaming, software and technology studio building new worlds, connected experiences and tools for creators.</p>
     </section>
 
-    <div class="section-title" id="nexus">Chase Nexus — Official Social Platform</div>
+    <h2 class="section-title" id="software">Chase Software</h2>
+    <div id="nexus"></div>
     <div class="card" style="margin-bottom: 2.5rem; border-color: rgba(192, 132, 252, 0.4); background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), var(--card-bg));">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
         <div>
@@ -170,7 +183,11 @@
       </div>
     </div>
 
-    <div class="section-title" id="games">Our Games</div>
+    <div class="grid-2">
+    <article class="card project-card"><span class="card-badge">Public email project</span><h3>Chase Mail</h3><p>A personal email experience with customizable profiles, virtual pets, Gmail integration and cosmetic trading on the product roadmap. Installable web app support and future native apps are part of the vision.</p></article>
+    <article class="card project-card"><span class="card-badge">In development</span><h3>RoleRipple</h3><p>An AI conversation and roleplaying platform with customizable characters, persistent worlds, story memory and interactive fictional apps.</p></article>
+    </div>
+    <h2 class="section-title" id="games">Chase Gaming</h2>
     <div class="grid-2">
       <div class="card">
         <span class="card-badge">Live Flagship Browser RPG</span>
@@ -182,13 +199,30 @@
 
       <div class="card">
         <span class="card-badge gold">New // Public Co-Op Beta</span>
-        <h2>DEADEYE</h2>
+        <h2>DEADEYE: Survival</h2>
         <p>A snowbound western survival game. Scavenge the Timber Line solo or with up to 3 friends, pick a survivor class, and fight off the frozen dead in real-time open-world combat.</p>
         <div class="code-box">ACT I: THE TIMBER LINE — NOW LIVE</div>
         <a href="https://deadeye-survival.chase-studios.org/" target="_blank" class="btn btn-primary" style="width: 100%;">Launch Game in Browser</a>
       </div>
     </div>
 
+    <div class="grid-2"><article class="card project-card"><span class="card-badge">In development</span><h3>Cat Clash</h3><p>A strategic cat-themed card battler featuring collectible cards and tactical matches.</p></article></div>
+    <h2 class="section-title" id="systems">Chase Operating Systems</h2>
+    <div class="grid-3">
+    <article class="card project-card"><span class="card-badge">Prototype in development</span><h3>ChaseDroid Lite</h3><p>An Android-based smartphone experience with custom Chase branding, a home screen and everyday phone functionality.</p></article>
+    <article class="card project-card"><span class="card-badge">Planned</span><h3>ChaseOS</h3><p>An iOS-compatible app-based environment with a custom startup experience, home screen and simulated system interface. It does not replace Apple's operating system.</p></article>
+    <article class="card project-card"><span class="card-badge">Planned</span><h3>ChaseCore</h3><p>A Linux-based desktop distribution concept focused on game development, software engineering and creative workflows.</p></article>
+    </div>
+    <h2 class="section-title" id="hardware">Chase Hardware</h2>
+    <div class="grid-2">
+    <article class="card project-card"><span class="card-badge">Future concept</span><h3>Chase Phones</h3><p>Our long-term vision for branded smartphones and a connected Chase software experience.</p></article>
+    <article class="card project-card"><span class="card-badge">Future concept</span><h3>Chase TV</h3><p>A proposed entertainment device with custom software. Hardware is not currently available for purchase.</p></article>
+    </div>
+    <h2 class="section-title" id="services">Chase Services</h2>
+    <div class="grid-2">
+    <article class="card project-card"><span class="card-badge">Studio account</span><h3>Chase Cloud Linking</h3><p>Account access and cloud saves for supported Chase games and services.</p><a class="btn btn-secondary" href="#account">Studio account</a></article>
+    <article class="card project-card"><span class="card-badge">Planned membership</span><h3>Chase+</h3><p>A proposed membership offering exclusive rewards, battle passes and discounts on eligible paid games.</p></article>
+    </div>
     <div class="card" id="account" style="margin-bottom: 2.5rem;">
       <div style="max-width: 460px; margin: 0 auto;">
         <span class="card-badge gold">Cloud Sync Portal</span>
@@ -242,7 +276,7 @@
           </p>
 
           <p style="color: #cbd5e1; line-height: 1.7; margin-bottom: 1.5rem;">
-            Chase Studios is the living legacy of that journey. It exists to capture that exact same childhood magic—the freedom to dive into any world, explore any genre, and create unforgettable adventures. Whether you are battling alongside loyal companions in browser RPGs or embarking on our next big journey, this studio is built on a simple promise: <strong>Every Genre. No Limits.</strong> Welcome to the family.
+            Chase Studios is the living legacy of that journey. It exists to capture that exact same childhood magic—the freedom to dive into any world, explore any genre, and create unforgettable adventures. Whether you are battling alongside loyal companions in browser RPGs, connecting with friends through our software, or exploring our future technology, this studio is built on a simple promise: <strong>Every Genre. No Limits.</strong> Welcome to the family.
           </p>
 
           <div style="background: rgba(7, 5, 13, 0.8); padding: 1.25rem; border-radius: 12px; border: 1px dashed var(--border);">
@@ -259,10 +293,10 @@
       </div>
     </div>
 
-    <div class="section-title" id="pipeline">Development Pipeline</div>
+    <h2 class="section-title" id="pipeline">Long-term Development Pipeline</h2>
     <div class="grid-3">
       <div class="card">
-        <span class="card-badge">Upcoming Commercial IP</span>
+        <span class="card-badge">Planned Commercial IP</span>
         <h3>Project: Steam RPG</h3>
         <p>Our massive, 100% original standalone creature-taming RPG built from the ground up for PC & Steam with dedicated multiplayer servers.</p>
       </div>
